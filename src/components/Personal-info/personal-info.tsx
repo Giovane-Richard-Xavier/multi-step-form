@@ -1,23 +1,50 @@
 import { TFormData } from "@/types/form-data";
 import { ChangeEvent } from "react";
+import { Input } from "../ui/Input";
+import { Button } from "../ui/Button";
 
 type Props = {
   formData: TFormData;
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onNext: () => void;
 };
 
-export const PersonalInfo = ({ formData, handleChange }: Props) => {
+export const PersonalInfo = ({ formData, handleChange, onNext }: Props) => {
   return (
-    <div>
-      <h1>Personal-info</h1>
-      <p>Please provide your name, address, and phone number.</p>
+    <div className="flex flex-col items-start text-[#0f0c33] py-10">
+      <h1 className="text-3xl font-bold">Personal-info</h1>
+      <p className="text-gray-400 mb-10">
+        Please provide your name, address, and phone number.
+      </p>
 
-      <section>
-        <input name="name" value={formData.name} onChange={handleChange} />
+      <section className="flex flex-col gap-6 w-full">
+        <Input
+          name="name"
+          label="Name"
+          value={formData.name}
+          onChange={handleChange}
+          className="border border-gray-500"
+        />
 
-        <input name="email" value={formData.name} onChange={handleChange} />
+        <Input
+          name="email"
+          label="Email Address"
+          value={formData.email}
+          onChange={handleChange}
+        />
 
-        <input name="phone" value={formData.name} onChange={handleChange} />
+        <Input
+          name="phone"
+          label="Phone Number"
+          value={formData.phone}
+          onChange={handleChange}
+        />
+
+        <div className="flex items-center justify-end mt-10">
+          <Button size="md" className="bg-[#0f0c33]" onClick={onNext}>
+            Next Step
+          </Button>
+        </div>
       </section>
     </div>
   );

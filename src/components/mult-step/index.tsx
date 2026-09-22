@@ -6,9 +6,11 @@ import { SelectPlan } from "../Select-plan/select-plan";
 import { AddOns } from "../Add-ons/add-ons";
 import { Summary } from "../Summary/summary";
 import { TFormData } from "@/types/form-data";
+import { Card } from "../ui/card";
 
 export const MultStep = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const size = 4;
 
   const [formData, setFormData] = useState<TFormData>({
     name: "",
@@ -28,20 +30,27 @@ export const MultStep = () => {
     }));
   };
 
+  const nexStep = () => {
+    setCurrentStep((current) => (current + 1 - size) % size);
+  };
+
   return (
-    <div>
-      {currentStep === 1 && (
-        <PersonalInfo formData={formData} handleChange={handleChange} />
-      )}
-      {currentStep === 2 && <SelectPlan />}
-      {currentStep === 3 && <AddOns />}
-      {currentStep === 4 && <Summary />}
+    <div className="w-screen h-screen flex items-center justify-center">
+      <Card className="flex gap-20 px-6 py-6 w-4xl border-none rounded-2xl shadow-2xl">
+        <Card className="flex-1 max-w-xs p-20 w-xs rounded-2xl">Sidebar</Card>
 
-      <section>
-        <input name="name" value={formData.name} onChange={handleChange} />
+        {currentStep === 1 && (
+          <PersonalInfo
+            formData={formData}
+            handleChange={handleChange}
+            onNext={nexStep}
+          />
+        )}
 
-        <h1>{formData.name}</h1>
-      </section>
+        {currentStep === 2 && <SelectPlan />}
+        {currentStep === 3 && <AddOns />}
+        {currentStep === 4 && <Summary />}
+      </Card>
     </div>
   );
 };
