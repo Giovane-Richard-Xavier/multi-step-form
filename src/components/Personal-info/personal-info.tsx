@@ -13,7 +13,7 @@ export const PersonalInfo = ({ formData, handleChange, onNext }: Props) => {
   return (
     <div className="flex flex-col items-start text-[#0f0c33] py-10">
       <h1 className="text-3xl font-bold">Personal-info</h1>
-      <p className="text-gray-400 mb-10">
+      <p className="text-gray-400 mb-10 mt-2">
         Please provide your name, address, and phone number.
       </p>
 
@@ -23,7 +23,6 @@ export const PersonalInfo = ({ formData, handleChange, onNext }: Props) => {
           label="Name"
           value={formData.name}
           onChange={handleChange}
-          className="border border-gray-500"
         />
 
         <Input

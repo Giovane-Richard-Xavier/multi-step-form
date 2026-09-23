@@ -83,6 +83,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               w-full
               rounded-md
               border
+              border-zinc-200!
               px-3
               ${leftIcon ? "pl-10" : ""}
               ${icon ? "pr-10" : ""}
@@ -90,7 +91,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               outline-none
               transition-colors
               placeholder-zinc-500
-              focus:border-white
+              focus:border-zinc-200
               disabled:cursor-not-allowed
               disabled:opacity-50
               read-only:opacity-50

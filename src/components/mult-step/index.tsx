@@ -36,7 +36,7 @@ export const MultStep = () => {
 
   return (
     <div className="w-screen h-screen flex items-center justify-center">
-      <Card className="flex gap-20 px-6 py-6 w-4xl border-none rounded-2xl shadow-2xl">
+      <Card className="flex gap-20 px-6 py-6 w-4xl border-none rounded-2xl shadow-xl!">
         <Card className="flex-1 max-w-xs p-20 w-xs rounded-2xl">Sidebar</Card>
 
         {currentStep === 1 && (
