@@ -1,9 +1,8 @@
 import { TFormData } from "@/types/form-data";
-import { Button } from "../ui/Button";
-import { RadioButton } from "../ui/Radiobutton";
-import { ChangeEvent } from "react";
 import { plans } from "@/types/select-plans";
-import { Card } from "../ui/card";
+import { Button } from "../ui/Button";
+import { Switch } from "../ui/Switch";
+import { useState } from "react";
 
 type Props = {
   formData: TFormData;
@@ -20,6 +19,8 @@ export const SelectPlan = ({
   onPlanChange,
   handleBillingChange,
 }: Props) => {
+  const [enabled, setEnabled] = useState(false);
+
   return (
     <div className="flex flex-col items-start text-[#0f0c33] py-10 w-full">
       <h1 className="text-3xl font-bold">Select your plan</h1>
@@ -30,40 +31,44 @@ export const SelectPlan = ({
       <section className="flex flex-col gap-10 max-w-xl">
         <div className="flex gap-6 w-full">
           {plans.map((plan) => (
-            <>
-              <button
-                key={plan.id}
-                type="button"
-                onClick={() => onPlanChange(plan.id)}
-                className={`flex flex-col border rounded-lg px-4 py-6 flex-1 cursor-pointer w-36 h-44 hover:border-[#0f0c33] ${
-                  formData.plan === plan.id
-                    ? "border-[#0f0c33] bg-[#f8f7ff]"
-                    : "border-gray-200 bg-white"
-                }`}
-              >
-                <div className="size-30">
-                  <img src={`/assets/images/${plan.icon}`} alt="" />
-                </div>
+            <button
+              key={plan.id}
+              type="button"
+              onClick={() => onPlanChange(plan.id)}
+              className={`flex flex-col border rounded-lg px-4 py-6 flex-1 cursor-pointer w-36 h-44 hover:border-[#0f0c33] ${
+                formData.plan === plan.id
+                  ? "border-[#0f0c33] bg-[#f8f7ff]"
+                  : "border-gray-200 bg-white"
+              }`}
+            >
+              <div className="size-30">
+                <img src={`/assets/images/${plan.icon}`} alt="" />
+              </div>
 
-                <div className="flex flex-col items-start gap-1">
-                  <span className="font-bold">{plan.name}</span>
+              <div className="flex flex-col items-start gap-1">
+                <span className="font-bold">{plan.name}</span>
 
-                  <span className="text-gray-300 text-sm">
-                    $
-                    {formData.billing === "yearly"
-                      ? plan.yearlyPrice
-                      : plan.montlyPrice}
-                    /{formData.billing === "yearly" ? "yr" : "mo"}
-                  </span>
-                </div>
-              </button>
-            </>
+                <span className="text-gray-300 text-sm">
+                  $
+                  {formData.billing === "yearly"
+                    ? plan.yearlyPrice
+                    : plan.montlyPrice}
+                  /{formData.billing === "yearly" ? "yr" : "mo"}
+                </span>
+              </div>
+            </button>
           ))}
         </div>
 
         <div className="flex items-center justify-center gap-6 h-10 bg-[#f8f7ff] rounded-md">
           <span>Monthly</span>
-          <button>radio</button>
+          <Switch
+            id="notifications"
+            label="Receber notificações"
+            checked={enabled}
+            onCheckedChange={setEnabled}
+            className="border-[#0f0c33]! bg-[#0f0c33]!"
+          />
           <span>Yearly</span>
         </div>
 
