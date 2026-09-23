@@ -82,8 +82,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               h-10
               w-full
               rounded-md
-              border
-              border-zinc-200!
               px-3
               ${leftIcon ? "pl-10" : ""}
               ${icon ? "pr-10" : ""}
@@ -95,7 +93,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               disabled:cursor-not-allowed
               disabled:opacity-50
               read-only:opacity-50
-              ${error ? "border-red-500" : "border-zinc-700"}
+              border
+              ${error ? "border-red-500" : "border-zinc-200"}
               ${className ?? ""}
             `}
             onKeyUp={handleKeyUp}

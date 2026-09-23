@@ -5,12 +5,12 @@ import { PersonalInfo } from "../Personal-info/personal-info";
 import { SelectPlan } from "../Select-plan/select-plan";
 import { AddOns } from "../Add-ons/add-ons";
 import { Summary } from "../Summary/summary";
-import { TFormData } from "@/types/form-data";
+import { TError, TFormData } from "@/types/form-data";
 import { Card } from "../ui/card";
 
 export const MultStep = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  const size = 4;
+  const TOTAL_STEPS = 4;
 
   const [formData, setFormData] = useState<TFormData>({
     name: "",
@@ -21,6 +21,12 @@ export const MultStep = () => {
     addons: [],
   });
 
+  const [erros, setErrors] = useState<TError>({
+    name: "",
+    email: "",
+    phone: "",
+  });
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
@@ -28,10 +34,46 @@ export const MultStep = () => {
       ...prev,
       [name]: value,
     }));
+
+    setErrors((prev) => ({
+      ...prev,
+      [name]: "",
+    }));
   };
 
-  const nexStep = () => {
-    setCurrentStep((current) => (current + 1 - size) % size);
+  const validatePersonalInfo = () => {
+    // descobrir quais campos estão inválidos
+    const newErros = {
+      name: "",
+      email: "",
+      phone: "",
+    };
+
+    if (!formData.name.trim()) {
+      newErros.name = "This field is required";
+    }
+
+    if (!formData.email.trim()) {
+      newErros.email = "This field is required";
+    }
+
+    if (!formData.phone.trim()) {
+      newErros.phone = "This field is required";
+    }
+
+    // atualizar erros
+    setErrors(newErros);
+
+    // retornar true ou false
+    return !newErros.name && !newErros.email && !newErros.phone;
+  };
+
+  const nextStep = () => {
+    const isValid = validatePersonalInfo();
+
+    if (isValid && currentStep < TOTAL_STEPS) {
+      setCurrentStep((current) => current + 1);
+    }
   };
 
   return (
@@ -43,7 +85,8 @@ export const MultStep = () => {
           <PersonalInfo
             formData={formData}
             handleChange={handleChange}
-            onNext={nexStep}
+            onNext={nextStep}
+            erros={erros}
           />
         )}
 
