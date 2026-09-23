@@ -9,7 +9,7 @@ import { TError, TFormData } from "@/types/form-data";
 import { Card } from "../ui/card";
 
 export const MultStep = () => {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(2);
   const TOTAL_STEPS = 4;
 
   const [formData, setFormData] = useState<TFormData>({
@@ -41,6 +41,20 @@ export const MultStep = () => {
     }));
   };
 
+  const handlePlanChange = (plan: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      plan,
+    }));
+  };
+
+  const handleBillingChange = (billing: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      billing,
+    }));
+  };
+
   const validatePersonalInfo = () => {
     // descobrir quais campos estão inválidos
     const newErros = {
@@ -69,10 +83,20 @@ export const MultStep = () => {
   };
 
   const nextStep = () => {
-    const isValid = validatePersonalInfo();
+    if (currentStep === 1) {
+      const isValid = validatePersonalInfo();
 
-    if (isValid && currentStep < TOTAL_STEPS) {
+      if (!isValid) return;
+    }
+
+    if (currentStep < TOTAL_STEPS) {
       setCurrentStep((current) => current + 1);
+    }
+  };
+
+  const previousStep = () => {
+    if (currentStep > 0) {
+      setCurrentStep((current) => current - 1);
     }
   };
 
@@ -90,7 +114,15 @@ export const MultStep = () => {
           />
         )}
 
-        {currentStep === 2 && <SelectPlan />}
+        {currentStep === 2 && (
+          <SelectPlan
+            formData={formData}
+            onPlanChange={handlePlanChange}
+            handleBillingChange={handleBillingChange}
+            onPrev={previousStep}
+            onNext={nextStep}
+          />
+        )}
         {currentStep === 3 && <AddOns />}
         {currentStep === 4 && <Summary />}
       </Card>
