@@ -2,6 +2,7 @@ import { TError, TFormData } from "@/types/form-data";
 import { ChangeEvent } from "react";
 import { Input } from "../ui/Input";
 import { Button } from "../ui/Button";
+import { HeadStep } from "../Head-form/head-step";
 
 type Props = {
   formData: TFormData;
@@ -17,11 +18,11 @@ export const PersonalInfo = ({
   erros,
 }: Props) => {
   return (
-    <div className="flex flex-col items-start text-[#0f0c33] py-10">
-      <h1 className="text-3xl font-bold">Personal-info</h1>
-      <p className="text-gray-400 mb-10 mt-2">
-        Please provide your name, email address, and phone number.
-      </p>
+    <div className="flex-1 flex flex-col items-start text-[#0f0c33] py-10 px-5">
+      <HeadStep
+        title="Personal-info"
+        description="Please provide your name, email address, and phone number."
+      />
 
       <section className="flex flex-col gap-6 w-full">
         <Input

@@ -3,6 +3,7 @@ import { plans } from "@/types/select-plans";
 import { Button } from "../ui/Button";
 import { Switch } from "../ui/Switch";
 import { useState } from "react";
+import { HeadStep } from "../Head-form/head-step";
 
 type Props = {
   formData: TFormData;
@@ -22,11 +23,11 @@ export const SelectPlan = ({
   const [enabled, setEnabled] = useState(false);
 
   return (
-    <div className="flex flex-col items-start text-[#0f0c33] py-10 w-full">
-      <h1 className="text-3xl font-bold">Select your plan</h1>
-      <p className="text-gray-400 mb-10 mt-2">
-        You have the option of mnthly or yearly billing.
-      </p>
+    <div className="flex flex-col items-start text-[#0f0c33] py-10 max-w-lg">
+      <HeadStep
+        title="Select your plan"
+        description="You have the option of mnthly or yearly billing."
+      />
 
       <section className="flex flex-col gap-10 max-w-xl">
         <div className="flex gap-6 w-full">
@@ -64,7 +65,6 @@ export const SelectPlan = ({
           <span>Monthly</span>
           <Switch
             id="notifications"
-            label="Receber notificações"
             checked={enabled}
             onCheckedChange={setEnabled}
             className="border-[#0f0c33]! bg-[#0f0c33]!"
@@ -72,7 +72,7 @@ export const SelectPlan = ({
           <span>Yearly</span>
         </div>
 
-        <div className="flex-1 flex items-center justify-between mt-20 w-full">
+        <div className="flex-1 flex items-center justify-between mt-5 w-full">
           <Button
             variant="ghost"
             size="md"

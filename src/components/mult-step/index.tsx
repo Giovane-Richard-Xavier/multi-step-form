@@ -102,8 +102,12 @@ export const MultStep = () => {
 
   return (
     <div className="w-screen h-screen flex items-center justify-center">
-      <Card className="flex gap-20 px-6 py-6 w-4xl border-none rounded-2xl shadow-xl!">
-        <Card className="flex-1 max-w-xs p-20 w-xs rounded-2xl">Sidebar</Card>
+      <Card className="flex gap-16 p-6 w-4xl border-none rounded-2xl shadow-xl!">
+        <Card
+          className={`flex-1 max-w-64 p-20 rounded-2xl bg-[url('/assets/images/bg-sidebar-desktop.svg')] bg-center bg-no-repeat bg-cover`}
+        >
+          Sidebar
+        </Card>
 
         {currentStep === 1 && (
           <PersonalInfo
