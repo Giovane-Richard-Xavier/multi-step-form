@@ -62,14 +62,39 @@ export const SelectPlan = ({
         </div>
 
         <div className="flex items-center justify-center gap-6 h-10 bg-[#f8f7ff] rounded-md">
-          <span>Monthly</span>
-          <Switch
-            id="notifications"
-            checked={enabled}
-            onCheckedChange={setEnabled}
-            className="border-[#0f0c33]! bg-[#0f0c33]!"
-          />
-          <span>Yearly</span>
+          <span
+            className={
+              formData.billing === "monthly"
+                ? "font-bold text-[#0f0c33]"
+                : "text-gray-400"
+            }
+          >
+            Monthly
+          </span>
+          <button
+            type="button"
+            onClick={() =>
+              handleBillingChange(
+                formData.billing === "monthly" ? "yearly" : "monthly",
+              )
+            }
+            className="relative h-6 w-12 rounded-full bg-[#0f0c33]"
+          >
+            <span
+              className={`absolute top-1 h-4 w-4 rounded-full bg-white transition-all ${
+                formData.billing === "yearly" ? "left-7" : "left-1"
+              }`}
+            />
+          </button>
+          <span
+            className={
+              formData.billing === "yearly"
+                ? "font-bold text-[#0f0c33]"
+                : "text-gray-400"
+            }
+          >
+            Yearly
+          </span>
         </div>
 
         <div className="flex-1 flex items-center justify-between mt-5 w-full">

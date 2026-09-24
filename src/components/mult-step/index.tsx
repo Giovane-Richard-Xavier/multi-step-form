@@ -127,7 +127,10 @@ export const MultStep = () => {
             onNext={nextStep}
           />
         )}
-        {currentStep === 3 && <AddOns />}
+        {currentStep === 3 && (
+          <AddOns onPrev={previousStep} onNext={nextStep} />
+        )}
+
         {currentStep === 4 && <Summary />}
       </Card>
     </div>
