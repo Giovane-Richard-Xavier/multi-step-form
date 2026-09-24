@@ -9,7 +9,7 @@ import { TError, TFormData } from "@/types/form-data";
 import { Card } from "../ui/card";
 
 export const MultStep = () => {
-  const [currentStep, setCurrentStep] = useState(2);
+  const [currentStep, setCurrentStep] = useState(1);
   const TOTAL_STEPS = 4;
 
   const [formData, setFormData] = useState<TFormData>({
@@ -53,6 +53,24 @@ export const MultStep = () => {
       ...prev,
       billing,
     }));
+  };
+
+  const handleAddonChange = (addonId: string) => {
+    setFormData((prev) => {
+      const alredySelected = prev.addons.includes(addonId);
+
+      if (alredySelected) {
+        return {
+          ...prev,
+          addons: prev.addons.filter((addon) => addon !== addonId),
+        };
+      }
+
+      return {
+        ...prev,
+        addons: [...prev.addons, addonId],
+      };
+    });
   };
 
   const validatePersonalInfo = () => {
@@ -128,10 +146,21 @@ export const MultStep = () => {
           />
         )}
         {currentStep === 3 && (
-          <AddOns onPrev={previousStep} onNext={nextStep} />
+          <AddOns
+            formData={formData}
+            handleAddonChange={handleAddonChange}
+            onPrev={previousStep}
+            onNext={nextStep}
+          />
         )}
 
-        {currentStep === 4 && <Summary />}
+        {currentStep === 4 && (
+          <Summary
+            formData={formData}
+            onPrev={previousStep}
+            onNext={nextStep}
+          />
+        )}
       </Card>
     </div>
   );

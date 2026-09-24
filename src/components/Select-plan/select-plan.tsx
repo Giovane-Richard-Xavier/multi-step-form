@@ -1,9 +1,7 @@
 import { TFormData } from "@/types/form-data";
 import { plans } from "@/types/select-plans";
-import { Button } from "../ui/Button";
-import { Switch } from "../ui/Switch";
-import { useState } from "react";
 import { HeadStep } from "../Head-form/head-step";
+import { Button } from "../ui/Button";
 
 type Props = {
   formData: TFormData;
@@ -20,8 +18,6 @@ export const SelectPlan = ({
   onPlanChange,
   handleBillingChange,
 }: Props) => {
-  const [enabled, setEnabled] = useState(false);
-
   return (
     <div className="flex flex-col items-start text-[#0f0c33] py-10 max-w-lg">
       <HeadStep
