@@ -26,7 +26,7 @@ export const SelectPlan = ({
     <div className="flex flex-col items-start text-[#0f0c33] py-10 max-w-lg">
       <HeadStep
         title="Select your plan"
-        description="You have the option of mnthly or yearly billing."
+        description="You have the option of monthly or yearly billing."
       />
 
       <section className="flex flex-col gap-10 max-w-xl">
