@@ -1,111 +1,167 @@
-import { useState } from "react";
+"use client";
+
+import { ChangeEvent, useState } from "react";
+import { PersonalInfo } from "../Personal-info/personal-info";
+import { SelectPlan } from "../Select-plan/select-plan";
+import { AddOns } from "../Add-ons/add-ons";
+import { Summary } from "../Summary/summary";
+import { TError, TFormData } from "@/types/form-data";
+import { Card } from "../ui/card";
 
 export const MultStep = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const TOTAL_STEPS = 4;
+
+  const [formData, setFormData] = useState<TFormData>({
+    name: "",
+    email: "",
+    phone: "",
+    plan: "",
+    billing: "",
+    addons: [],
+  });
+
+  const [erros, setErrors] = useState<TError>({
+    name: "",
+    email: "",
+    phone: "",
+  });
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    setErrors((prev) => ({
+      ...prev,
+      [name]: "",
+    }));
+  };
+
+  const handlePlanChange = (plan: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      plan,
+    }));
+  };
+
+  const handleBillingChange = (billing: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      billing,
+    }));
+  };
+
+  const handleAddonChange = (addonId: string) => {
+    setFormData((prev) => {
+      const alredySelected = prev.addons.includes(addonId);
+
+      if (alredySelected) {
+        return {
+          ...prev,
+          addons: prev.addons.filter((addon) => addon !== addonId),
+        };
+      }
+
+      return {
+        ...prev,
+        addons: [...prev.addons, addonId],
+      };
+    });
+  };
+
+  const validatePersonalInfo = () => {
+    // descobrir quais campos estão inválidos
+    const newErros = {
+      name: "",
+      email: "",
+      phone: "",
+    };
+
+    if (!formData.name.trim()) {
+      newErros.name = "This field is required";
+    }
+
+    if (!formData.email.trim()) {
+      newErros.email = "This field is required";
+    }
+
+    if (!formData.phone.trim()) {
+      newErros.phone = "This field is required";
+    }
+
+    // atualizar erros
+    setErrors(newErros);
+
+    // retornar true ou false
+    return !newErros.name && !newErros.email && !newErros.phone;
+  };
+
+  const nextStep = () => {
+    if (currentStep === 1) {
+      const isValid = validatePersonalInfo();
+
+      if (!isValid) return;
+    }
+
+    if (currentStep < TOTAL_STEPS) {
+      setCurrentStep((current) => current + 1);
+    }
+  };
+
+  const previousStep = () => {
+    if (currentStep > 0) {
+      setCurrentStep((current) => current - 1);
+    }
+  };
 
   return (
-    <div>
-      {/* <!-- Sidebar start -->
+    <div className="w-screen h-screen flex items-center justify-center">
+      <Card className="flex gap-16 p-6 w-4xl border-none rounded-2xl shadow-xl!">
+        <Card
+          className={`flex-1 max-w-64 p-20 rounded-2xl bg-[url('/assets/images/bg-sidebar-desktop.svg')] bg-center bg-no-repeat bg-cover`}
+        >
+          Sidebar
+        </Card>
 
-  Step 1
-  Your info
+        {currentStep === 1 && (
+          <PersonalInfo
+            formData={formData}
+            handleChange={handleChange}
+            onNext={nextStep}
+            erros={erros}
+          />
+        )}
 
-  Step 2
-  Select plan
+        {currentStep === 2 && (
+          <SelectPlan
+            formData={formData}
+            onPlanChange={handlePlanChange}
+            handleBillingChange={handleBillingChange}
+            onPrev={previousStep}
+            onNext={nextStep}
+          />
+        )}
+        {currentStep === 3 && (
+          <AddOns
+            formData={formData}
+            handleAddonChange={handleAddonChange}
+            onPrev={previousStep}
+            onNext={nextStep}
+          />
+        )}
 
-  Step 3
-  Add-ons
-
-  Step 4
-  Summary
-
-  <!-- Sidebar end --> */}
-
-      {/* <!-- Step 1 start -->
-
-  Personal info
-  Please provide your name, email address, and phone number.
-
-  Name
-  e.g. Stephen King
-
-  Email Address
-  e.g. stephenking@lorem.com
-
-  Phone Number
-  e.g. +1 234 567 890
-
-  Next Step
-
-  <!-- Step 1 end --> */}
-
-      {/* <!-- Step 2 start -->
-
-  Select your plan
-  You have the option of monthly or yearly billing.
-
-  Arcade
-  $9/mo
-
-  Advanced
-  $12/mo
-
-  Pro
-  $15/mo
-
-  Monthly
-  Yearly
-
-  Go Back
-  Next Step
-
-  <!-- Step 2 end -->
-
-  <!-- Step 3 start -->
-
-  Pick add-ons
-  Add-ons help enhance your gaming experience.
-
-  Online service
-  Access to multiplayer games
-  +$1/mo
-
-  Larger storage
-  Extra 1TB of cloud save
-  +$2/mo
-
-  Customizable Profile
-  Custom theme on your profile
-  +$2/mo
-
-  Go Back
-  Next Step */}
-
-      {/* <!-- Step 3 end -->
-
-  <!-- Step 4 start --> */}
-
-      {/* Finishing up
-  Double-check everything looks OK before confirming. */}
-
-      {/* <!-- Dynamically add subscription and add-on selections here --> */}
-
-      {/* Total (per month/year) */}
-      {/* 
-  Go Back
-  Confirm */}
-      {/* 
-  <!-- Step 4 end -->
-
-  <!-- Step 5 start --> */}
-
-      {/* Thank you!
-
-  Thanks for confirming your subscription! We hope you have fun 
-  using our platform. If you ever need support, please feel free 
-  to email us at support@loremgaming.com. */}
-
-      {/* <!-- Step 5 end --> */}
+        {currentStep === 4 && (
+          <Summary
+            formData={formData}
+            onPrev={previousStep}
+            onNext={nextStep}
+          />
+        )}
+      </Card>
     </div>
   );
 };
