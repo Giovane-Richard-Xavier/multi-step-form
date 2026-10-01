@@ -12,13 +12,20 @@ export const AccordionContent = ({ children }: AccordionContentProps) => {
 
   const isOpen = activeItem === value;
 
-  if (!isOpen) {
-    return null;
-  }
-
   return (
-    <div className="overflow-hidden p-4 text-sm text-muted-foreground text-gray-500">
-      {children}
+    <div
+      className={`
+      grid
+      transition-all
+      duration-200
+      ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}
+    `}
+    >
+      <div className="overflow-hidden">
+        <div className="overflow-hidden p-4 text-sm text-muted-foreground text-gray-500">
+          {children}
+        </div>
+      </div>
     </div>
   );
 };
