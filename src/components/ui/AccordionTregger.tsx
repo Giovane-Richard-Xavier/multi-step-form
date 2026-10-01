@@ -2,19 +2,19 @@ import { ButtonHTMLAttributes, ReactNode } from "react";
 import { Button } from "./Button";
 import { useAccordion } from "./Accordion";
 import { IconChevronDown } from "@tabler/icons-react";
+import { useAccordionItem } from "./AccordionItem";
 
 interface AccordionTriggerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  value: string;
   children: ReactNode;
 }
 
 export const AccordionTrigger = ({
-  value,
   children,
   className = "",
   ...props
 }: AccordionTriggerProps) => {
   const { activeItem, toggleItem } = useAccordion();
+  const { value } = useAccordionItem();
 
   const isOpen = activeItem === value;
 
@@ -23,16 +23,19 @@ export const AccordionTrigger = ({
       type="button"
       aria-expanded={isOpen}
       onClick={() => toggleItem(value)}
+      variant="ghost"
       className={`
         flex
         w-full
+        h-14
         items-center
         justify-between
         py-4
         text-left
         font-medium
         transition-all
-        hover:underline
+        bg-gray-100
+        hover:bg-gray-200
         ${className}
     `}
       {...props}
